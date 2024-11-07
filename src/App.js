@@ -1,25 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
-
+import { useState, createContext } from 'react';
+import Child from './Child.jsx';
+import Child1 from './Child1.jsx';
+const Contest = createContext();
 function App() {
+  const [data, setData] = useState("john");
+  const [city, setCity] = useState("hyd");
+  const [cart,setCart]=useState([
+    {"name":"product1","price":1200,"qunty":1},
+    {"name":"product2","price":1200,"qunty":1},
+    {"name":"product3","price":1200,"qunty":1},
+
+  ])
+  const [addToCart,setaddToCart]=useState([]);
+
+  const val = {addToCart,setaddToCart };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Contest.Provider value={val}>
+      <p>My name is {data} and I am from {city}</p>
+      <button onClick={() => {setData("teja");
+      setCity("chennai")
+      }}>Convert</button>
+      {addToCart.map((items,value)=>(
+        <div key={value}>
+          <div>{items.name}-{items.price}</div>
+        </div>
+      ))}
+      <hr></hr>
+      <Child />
+      <Child1 />
+    </Contest.Provider>
   );
 }
 
+export { Contest };
 export default App;
